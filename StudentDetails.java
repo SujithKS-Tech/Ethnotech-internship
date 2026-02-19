@@ -8,7 +8,7 @@ public class StudentDetails {
         String[] name = new String[5];
         int[] marks = new int[5];
 
-        for (int i = 0; i <= 5; i++) {
+        for (int i = 0; i < 5; i++) {
             System.out.print("Enter student name: ");
             name[i] = sc.nextLine();
 
