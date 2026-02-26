@@ -17,7 +17,7 @@ public class ContactManager {
             System.out.println("4. Exit");
             System.out.print("Enter choice: ");
 
-            
+        
             choice = Integer.parseInt(sc.nextLine());
 
             if (choice == 1) {
