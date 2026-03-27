@@ -1,0 +1,105 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body Background */
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Container */
+.container {
+  width: 90%;
+  max-width: 500px;
+}
+
+/* Card Design (Glass Effect) */
+.card {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  padding: 25px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  color: #fff;
+}
+
+/* Heading */
+h2 {
+  text-align: center;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+/* Inputs & Select */
+input,
+select {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+/* Placeholder color */
+input::placeholder {
+  color: #eee;
+}
+
+/* Button */
+button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  background: linear-gradient(135deg, #ff7e5f, #feb47b);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s ease;
+}
+
+/* Button hover */
+button:hover {
+  transform: scale(1.05);
+  background: linear-gradient(135deg, #ff6a4a, #fca85d);
+}
+
+/* Table */
+.table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+/* Table header */
+.table th {
+  background: rgba(255, 255, 255, 0.25);
+  padding: 10px;
+  text-align: left;
+}
+
+/* Table rows */
+.table td {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 10px;
+}
+
+/* Table hover */
+.table tr:hover td {
+  background: rgba(255, 255, 255, 0.2);
+}

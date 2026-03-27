@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Patient Dashboard</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="card">
+        <h2>Patient Dashboard</h2>
+
+        <!-- BOOK APPOINTMENT -->
+        <h3>Book Appointment</h3>
+        <input id="doctorId" placeholder="Doctor ID" />
+        <input id="scheduleId" placeholder="Schedule ID" />
+        <button onclick="bookAppointment()">Book</button>
+
+        <!-- VIEW APPOINTMENTS -->
+        <h3>My Appointments</h3>
+        <button onclick="loadAppointments()">Load Appointments</button>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="appointmentTable"></tbody>
+        </table>
+
+        <!-- QUEUE STATUS -->
+        <h3>Queue Status</h3>
+        <input id="queueId" placeholder="Appointment ID" />
+        <button onclick="checkQueueStatus()">Check</button>
+      </div>
+    </div>
+
+    <script src="js/app.js"></script>
+  </body>
+</html>
