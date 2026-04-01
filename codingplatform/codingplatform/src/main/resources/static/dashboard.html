@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Coding Platform Pro</title>
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<!-- Monaco Editor -->
+<script src="https://unpkg.com/monaco-editor@latest/min/vs/loader.js"></script>
+
+<style>
+
+/* 🌈 THEMES */
+:root {
+    --bg: linear-gradient(135deg, #141e30, #243b55);
+    --card: rgba(255,255,255,0.08);
+    --text: white;
+}
+
+.light {
+    --bg: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+    --card: rgba(0,0,0,0.1);
+    --text: black;
+}
+
+/* RESET */
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* CONTAINER */
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 25%;
+    backdrop-filter: blur(15px);
+    background: var(--card);
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.problem {
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.problem:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+/* MAIN */
+.main {
+    width: 75%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* DESCRIPTION */
+.description {
+    background: var(--card);
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+/* EDITOR */
+#editor {
+    height: 400px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* BUTTON */
+button {
+    margin-top: 10px;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    background: #00c6ff;
+    cursor: pointer;
+}
+
+/* TOP BAR */
+.topbar {
+    position: absolute;
+    top: 10px;
+    left: 20px;
+}
+
+.toggle {
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 8px;
+    background: var(--card);
+}
+
+/* LEADERBOARD */
+.leaderboard {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    width: 250px;
+    background: var(--card);
+    padding: 15px;
+    border-radius: 10px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+    <button class="toggle" onclick="toggleTheme()">🌗 Toggle Theme</button>
+</div>
+
+<div class="container">
+
+    <div class="sidebar">
+        <h2>Problems</h2>
+        <div id="problems"></div>
+    </div>
+
+    <div class="main">
+        <div class="description" id="description">Select a problem</div>
+        <div id="editor"></div>
+        <button onclick="submitCode()">🚀 Submit</button>
+    </div>
+
+</div>
+
+<div class="leaderboard">
+    <h3>🏆 Leaderboard</h3>
+    <div id="leaderboard"></div>
+</div>
+
+<script>
+
+// 🌗 THEME TOGGLE
+function toggleTheme(){
+    document.body.classList.toggle("light");
+}
+
+// 📚 LOAD PROBLEMS
+fetch('/admin/problems')
+.then(res => res.json())
+.then(data => {
+    let html='';
+    data.forEach(p=>{
+        html += `<div class="problem" onclick="selectProblem(${p.id}, '${p.description}')">${p.title}</div>`;
+    });
+    document.getElementById("problems").innerHTML = html;
+});
+
+let selectedProblem=null;
+
+function selectProblem(id, desc){
+    selectedProblem=id;
+    document.getElementById("description").innerText = desc;
+}
+
+// 💻 MONACO EDITOR
+let editor;
+require.config({ paths: { vs: 'https://unpkg.com/monaco-editor@latest/min/vs' }});
+require(["vs/editor/editor.main"], function () {
+    editor = monaco.editor.create(document.getElementById("editor"), {
+        value: "// Write Java code here",
+        language: "java",
+        theme: "vs-dark"
+    });
+});
+
+// 🚀 SUBMIT
+function submitCode(){
+    const code = editor.getValue();
+
+    if (!selectedProblem) {
+        return alert('Please select a problem first.');
+    }
+
+    fetch('/submit',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({
+            userId:1,
+            problemId:selectedProblem,
+            code:code,
+            language:"java"
+        })
+    })
+    .then(res=>res.json())
+    .then(data=>alert("Result: "+data.status));
+}
+
+// 🏆 LEADERBOARD
+function loadLeaderboard(){
+    fetch('/submit/leaderboard')
+    .then(res=>res.json())
+    .then(data=>{
+        let html='';
+        data.forEach(u=>{
+            html += `<div>${u.username} - ${u.score}</div>`;
+        });
+        document.getElementById("leaderboard").innerHTML = html;
+    });
+}
+
+loadLeaderboard();
+
+</script>
+
+</body>
+</html>

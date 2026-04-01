@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Login</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+
+/* 🌈 BACKGROUND */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #141e30, #243b55);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* ✨ CARD */
+.card {
+    width: 350px;
+    padding: 30px;
+    border-radius: 15px;
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(15px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    text-align: center;
+    color: white;
+}
+
+/* 🧾 TITLE */
+h2 {
+    margin-bottom: 20px;
+}
+
+/* 🔤 INPUT GROUP */
+.input-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+}
+
+/* 👁️ ICON */
+.eye {
+    position: absolute;
+    right: 10px;
+    top: 12px;
+    cursor: pointer;
+}
+
+/* 🚀 BUTTON */
+button {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    background: #00c6ff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #0072ff;
+    color: white;
+}
+
+/* 🔗 LINKS */
+a {
+    color: #00c6ff;
+    text-decoration: none;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+<h2>🔐 Welcome Back</h2>
+
+<div class="input-group">
+    <input id="username" placeholder="Username">
+</div>
+
+<div class="input-group">
+    <input id="password" type="password" placeholder="Password">
+    <span class="eye" onclick="togglePassword()">👁️</span>
+</div>
+
+<button onclick="login()">Login</button>
+
+<p style="margin-top:10px;">
+Don’t have account? <a href="register.html">Register</a>
+</p>
+
+</div>
+
+<script>
+
+// 👁️ SHOW/HIDE PASSWORD
+function togglePassword(){
+    const pass = document.getElementById("password");
+    pass.type = pass.type === "password" ? "text" : "password";
+}
+
+// 🔐 LOGIN FUNCTION
+function login(){
+
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+
+    fetch('/auth/login',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({
+            username:username,
+            password:password
+        })
+    })
+    .then(res=>res.text())
+    .then(data=>{
+        if(data.includes("Success")){
+            window.location = "dashboard.html";
+        } else {
+            alert("Invalid credentials ❌");
+        }
+    })
+    .catch(err=>{
+        console.error(err);
+        alert("Error connecting server ❌");
+    });
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin Dashboard</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
+<style>
+
+body {
+    font-family: Poppins;
+    background: linear-gradient(135deg,#141e30,#243b55);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* CARD */
+.card {
+    width: 400px;
+    background: rgba(255,255,255,0.08);
+    padding: 25px;
+    border-radius: 15px;
+    backdrop-filter: blur(15px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+/* INPUT */
+input, textarea {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+}
+
+/* BUTTON */
+button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 10px;
+    background: #00c6ff;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #0072ff;
+    color: white;
+}
+
+/* LIST */
+.problem-list {
+    margin-top: 20px;
+}
+
+.problem {
+    background: rgba(255,255,255,0.1);
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 8px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+<h2>🧑‍🏫 Admin Panel</h2>
+
+<input id="title" placeholder="Problem Title">
+
+<textarea id="desc" placeholder="Problem Description"></textarea>
+
+<button onclick="addProblem()">➕ Add Problem</button>
+
+<div class="problem-list">
+    <h3>📚 Existing Problems</h3>
+    <div id="problems"></div>
+</div>
+
+</div>
+
+<script>
+
+// ➕ ADD PROBLEM
+function addProblem(){
+
+    const title = document.getElementById("title").value;
+    const desc = document.getElementById("desc").value;
+
+    fetch('/admin/problem',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({
+            title:title,
+            description:desc
+        })
+    })
+    .then(res=>res.json())
+    .then(data=>{
+        alert("Problem Added ✅");
+        loadProblems();
+    })
+    .catch(err=>{
+        console.error(err);
+        alert("Error adding problem ❌");
+    });
+}
+
+// 📚 LOAD PROBLEMS
+function loadProblems(){
+
+    fetch('/admin/problems')
+    .then(res=>res.json())
+    .then(data=>{
+        let html = "";
+
+        data.forEach(p=>{
+            html += `
+                <div class="problem">
+                    <strong>${p.title}</strong><br>
+                    <small>${p.description}</small>
+                </div>
+            `;
+        });
+
+        document.getElementById("problems").innerHTML = html;
+    });
+}
+
+// 🔄 LOAD ON START
+loadProblems();
+
+</script>
+
+</body>
+</html>
