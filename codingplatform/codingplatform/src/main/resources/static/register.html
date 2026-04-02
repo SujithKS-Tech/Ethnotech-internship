@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Register</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+
+/* 🌈 BACKGROUND */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #141e30, #243b55);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* ✨ CARD */
+.card {
+    width: 350px;
+    padding: 30px;
+    border-radius: 15px;
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(15px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    text-align: center;
+    color: white;
+}
+
+/* 🧾 TITLE */
+h2 {
+    margin-bottom: 20px;
+}
+
+/* 🔤 INPUT GROUP */
+.input-group {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+}
+
+/* 🚀 BUTTON */
+button {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    background: #00c6ff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #0072ff;
+    color: white;
+}
+
+/* 🔗 LINK */
+a {
+    color: #00c6ff;
+    text-decoration: none;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+<h2>🚀 Create Account</h2>
+
+<div class="input-group">
+    <input id="username" placeholder="Username">
+</div>
+
+<div class="input-group">
+    <input id="email" placeholder="Email">
+</div>
+
+<div class="input-group">
+    <input id="password" type="password" placeholder="Password">
+</div>
+
+<button onclick="register()">Register</button>
+
+<p style="margin-top:10px;">
+Already have account? <a href="login.html">Login</a>
+</p>
+
+</div>
+
+<script>
+
+function register(){
+
+    const username = document.getElementById("username").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    fetch('/auth/register',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({
+            username:username,
+            email:email,
+            password:password
+        })
+    })
+    .then(res=>res.json())
+    .then(data=>{
+        alert("Registered Successfully ✅");
+        window.location = "login.html";
+    })
+    .catch(err=>{
+        console.error(err);
+        alert("Error ❌");
+    });
+}
+
+</script>
+
+</body>
+</html>

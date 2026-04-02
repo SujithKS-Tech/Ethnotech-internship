@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Coding Platform</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/monaco-editor@latest/min/vs/loader.js"></script>
+
+<style>
+
+/* 🌈 GLOBAL */
+body {
+    margin:0;
+    font-family:'Poppins',sans-serif;
+    background:linear-gradient(135deg,#141e30,#243b55);
+    color:white;
+}
+
+/* NAV */
+.nav {
+    display:flex;
+    justify-content:space-around;
+    padding:12px;
+    background:rgba(0,0,0,0.3);
+}
+
+/* SECTIONS */
+.section { display:none; }
+.section.active { display:block; }
+.center.active { display:flex; }
+
+/* CENTER */
+.center {
+    height:90vh;
+    justify-content:center;
+    align-items:center;
+}
+
+/* CARD */
+.card {
+    width:350px;
+    padding:30px;
+    border-radius:15px;
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(15px);
+    box-shadow:0 10px 30px rgba(0,0,0,0.5);
+}
+.card h2 {
+    margin-top:0;
+}
+.auth-card {
+    width:min(430px, 92vw);
+    padding:34px;
+}
+.auth-badge {
+    display:inline-block;
+    padding:6px 10px;
+    border-radius:999px;
+    background:rgba(0,198,255,0.18);
+    color:#a6ecff;
+    font-size:12px;
+    letter-spacing:0.4px;
+    margin-bottom:10px;
+}
+.auth-subtitle {
+    margin:0 0 14px 0;
+    color:rgba(255,255,255,0.82);
+    font-size:14px;
+}
+.field {
+    margin-top:8px;
+}
+.field label {
+    font-size:13px;
+    color:rgba(255,255,255,0.84);
+}
+.field input {
+    margin-top:6px;
+}
+.auth-btn {
+    margin-top:16px;
+}
+.auth-switch {
+    margin:14px 0 0 0;
+    font-size:13px;
+    color:rgba(255,255,255,0.8);
+}
+.auth-switch a {
+    color:#8edfff;
+    text-decoration:none;
+}
+.auth-switch a:hover {
+    text-decoration:underline;
+}
+.admin-card {
+    width:min(680px, 92vw);
+}
+
+/* INPUT */
+input,textarea {
+    width:100%;
+    padding:12px;
+    margin-top:10px;
+    border:none;
+    border-radius:10px;
+}
+
+/* BUTTON */
+button {
+    margin-top:12px;
+    padding:12px;
+    width:100%;
+    border:none;
+    border-radius:10px;
+    background:#00c6ff;
+    cursor:pointer;
+}
+button:hover {
+    background:#0072ff;
+    color:white;
+}
+
+/* DASHBOARD */
+.container {
+    display:grid;
+    grid-template-columns:260px minmax(0,1fr) 220px;
+    gap:16px;
+    height:90vh;
+    width:100%;
+    padding:12px;
+    box-sizing:border-box;
+}
+.sidebar {
+    padding:20px;
+    background:rgba(255,255,255,0.08);
+    border-radius:12px;
+    overflow:auto;
+}
+.sidebar h3 {
+    margin-top:0;
+}
+.main {
+    padding:20px;
+    min-width:0;
+    background:rgba(255,255,255,0.04);
+    border-radius:12px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+.problem-details {
+    background:rgba(255,255,255,0.08);
+    border-radius:10px;
+    padding:12px;
+}
+.problem-details h4 {
+    margin:0 0 8px 0;
+}
+#problemDescription {
+    margin:0;
+    white-space:pre-wrap;
+    line-height:1.45;
+}
+.problem {
+    padding:10px;
+    cursor:pointer;
+    border-radius:8px;
+    background:rgba(255,255,255,0.04);
+}
+.problem + .problem {
+    margin-top:6px;
+}
+.dash-tools {
+    display:flex;
+    gap:8px;
+    margin-bottom:10px;
+}
+.dash-tools input {
+    margin-top:0;
+    flex:1;
+    width:auto;
+}
+.small-btn {
+    width:auto;
+    margin-top:0;
+    padding:10px 12px;
+}
+.dash-stats {
+    display:flex;
+    gap:8px;
+    margin-bottom:12px;
+}
+.stat-card {
+    flex:1;
+    background:rgba(255,255,255,0.06);
+    border-radius:8px;
+    padding:8px;
+}
+.stat-card span {
+    display:block;
+    font-size:12px;
+    opacity:0.8;
+}
+.stat-card strong {
+    font-size:14px;
+}
+.editor-toolbar {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-size:13px;
+    background:rgba(255,255,255,0.08);
+    border-radius:8px;
+    padding:8px 10px;
+}
+.submit-row {
+    display:flex;
+    gap:10px;
+}
+.submit-row button {
+    margin-top:0;
+    width:auto;
+    flex:1;
+}
+.output-panel {
+    min-height:42px;
+    border-radius:8px;
+    padding:10px 12px;
+    background:rgba(255,255,255,0.06);
+}
+.output-panel.success {
+    color:#87f7bc;
+}
+.output-panel.error {
+    color:#ffb3b3;
+}
+
+/* EDITOR */
+#editor {
+    height:60vh;
+    min-height:350px;
+    width:100%;
+    overflow:hidden;
+    border-radius:10px;
+}
+
+/* LEADERBOARD */
+.leaderboard {
+    background:rgba(255,255,255,0.08);
+    padding:16px;
+    border-radius:12px;
+    height:fit-content;
+}
+.leaderboard h4 {
+    margin-top:0;
+}
+.leaderboard-item {
+    padding:8px;
+    border-radius:8px;
+    background:rgba(255,255,255,0.06);
+    margin-bottom:6px;
+    font-size:14px;
+}
+
+/* ADMIN */
+#desc {
+    min-height:90px;
+    resize:vertical;
+    max-height:260px;
+}
+#descCount {
+    display:block;
+    margin-top:6px;
+    font-size:12px;
+    opacity:0.8;
+    text-align:right;
+}
+#adminSearch {
+    margin-top:12px;
+}
+#adminProblems {
+    margin-top:14px;
+    max-height:220px;
+    overflow:auto;
+}
+.admin-problem-item {
+    padding:10px 12px;
+    border-radius:8px;
+    background:rgba(255,255,255,0.08);
+    margin-bottom:8px;
+    font-size:14px;
+    cursor:pointer;
+}
+.admin-problem-item:hover {
+    background:rgba(255,255,255,0.16);
+}
+.admin-problem-item strong {
+    display:block;
+}
+.admin-problem-item span {
+    font-size:12px;
+    opacity:0.85;
+}
+.admin-actions {
+    display:flex;
+    gap:10px;
+}
+.admin-actions button {
+    margin-top:12px;
+}
+.secondary-btn {
+    background:#405168;
+    color:#fff;
+}
+.secondary-btn:hover {
+    background:#334357;
+}
+.admin-status {
+    min-height:20px;
+    margin-top:8px;
+    font-size:14px;
+}
+.admin-status.success {
+    color:#7dffb4;
+}
+.admin-status.error {
+    color:#ffb3b3;
+}
+.admin-preview {
+    margin-top:12px;
+    background:rgba(255,255,255,0.06);
+    border-radius:10px;
+    padding:12px;
+}
+.admin-preview h4 {
+    margin:0 0 6px 0;
+}
+.admin-preview p {
+    margin:0;
+    white-space:pre-wrap;
+    line-height:1.4;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="nav">
+<button onclick="show('login')">Login</button>
+<button onclick="show('register')">Register</button>
+<button onclick="show('dashboard')">Dashboard</button>
+<button onclick="show('admin')">Admin</button>
+</div>
+
+<!-- LOGIN -->
+<div id="login" class="section active center">
+<div class="card auth-card">
+<span class="auth-badge">Welcome Back</span>
+<h2>Login</h2>
+<p class="auth-subtitle">Sign in to continue coding and track your progress.</p>
+<div class="field">
+<label for="loginUser">Username</label>
+<input id="loginUser" placeholder="Enter username">
+</div>
+<div class="field">
+<label for="loginPass">Password</label>
+<input id="loginPass" type="password" placeholder="Enter password">
+</div>
+<button class="auth-btn" onclick="login()">Login</button>
+<p class="auth-switch">New here? <a href="#" onclick="show('register'); return false;">Create account</a></p>
+</div>
+</div>
+
+<!-- REGISTER -->
+<div id="register" class="section center">
+<div class="card auth-card">
+<span class="auth-badge">Get Started</span>
+<h2>Register</h2>
+<p class="auth-subtitle">Create your account to start solving problems.</p>
+<div class="field">
+<label for="regUser">Username</label>
+<input id="regUser" placeholder="Choose username">
+</div>
+<div class="field">
+<label for="regPass">Password</label>
+<input id="regPass" type="password" placeholder="Create password">
+</div>
+<button class="auth-btn" onclick="register()">Register</button>
+<p class="auth-switch">Already have an account? <a href="#" onclick="show('login'); return false;">Login</a></p>
+</div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard" class="section">
+<div class="container">
+
+<div class="sidebar">
+<h3>Problems</h3>
+<div class="dash-tools">
+<input id="problemSearch" placeholder="Search problems..." oninput="filterProblems()">
+<button class="secondary-btn small-btn" onclick="loadProblems()">Refresh</button>
+</div>
+<div class="dash-stats">
+<div class="stat-card">
+<span>Total</span>
+<strong id="totalProblems">0</strong>
+</div>
+<div class="stat-card">
+<span>Selected</span>
+<strong id="selectedProblemLabel">None</strong>
+</div>
+</div>
+<div id="problems"></div>
+</div>
+
+<div class="main">
+<div class="problem-details">
+<h4 id="problemHeading">Problem</h4>
+<p id="problemDescription">Select a problem from the left panel to view the full statement.</p>
+</div>
+<div class="editor-toolbar">
+<span id="editorStatus">Editor ready</span>
+<span id="selectedProblemId">Problem ID: -</span>
+</div>
+<div id="editor"></div>
+<div class="submit-row">
+<button id="submitBtn" onclick="submitCode()">Submit Code</button>
+<button class="secondary-btn" onclick="resetEditor()">Reset Code</button>
+</div>
+<div id="output" class="output-panel">Run your code against the selected problem.</div>
+</div>
+
+<div class="leaderboard">
+<h4>Leaderboard</h4>
+<div id="leaderboard"></div>
+</div>
+
+</div>
+</div>
+
+<!-- ADMIN -->
+<div id="admin" class="section center">
+<div class="card admin-card">
+<h2>Admin Panel</h2>
+<input id="title" maxlength="150" placeholder="Problem Title">
+<textarea id="desc" maxlength="2000" placeholder="Write full problem statement here..."></textarea>
+<span id="descCount">0 / 2000</span>
+<div class="admin-actions">
+<button onclick="addProblem()">Add Problem</button>
+<button class="secondary-btn" onclick="clearAdminForm()">Clear</button>
+</div>
+<div id="adminStatus" class="admin-status"></div>
+<input id="adminSearch" placeholder="Search problems by title..." oninput="filterAdminProblems()">
+<div id="adminProblems"></div>
+<div id="adminPreview" class="admin-preview">
+<h4>Selected Problem</h4>
+<p>Select a problem to preview full description.</p>
+</div>
+</div>
+</div>
+<script>
+
+const API_BASE = window.location.port === "8080"
+? `${window.location.protocol}//${window.location.host}`
+: `${window.location.protocol}//${window.location.hostname}:8080`;
+const elements = {
+loginUser: document.getElementById("loginUser"),
+loginPass: document.getElementById("loginPass"),
+regUser: document.getElementById("regUser"),
+regPass: document.getElementById("regPass"),
+problemSearch: document.getElementById("problemSearch"),
+problems: document.getElementById("problems"),
+totalProblems: document.getElementById("totalProblems"),
+selectedProblemLabel: document.getElementById("selectedProblemLabel"),
+selectedProblemId: document.getElementById("selectedProblemId"),
+editorStatus: document.getElementById("editorStatus"),
+output: document.getElementById("output"),
+leaderboard: document.getElementById("leaderboard"),
+problemTitle: document.getElementById("title"),
+problemDesc: document.getElementById("desc"),
+adminProblems: document.getElementById("adminProblems"),
+problemHeading: document.getElementById("problemHeading"),
+problemDescription: document.getElementById("problemDescription"),
+descCount: document.getElementById("descCount"),
+adminStatus: document.getElementById("adminStatus"),
+adminSearch: document.getElementById("adminSearch"),
+adminPreview: document.getElementById("adminPreview")
+};
+let problemsCache = [];
+let adminProblemsCache = [];
+elements.problemDesc.addEventListener("input", updateDescCount);
+updateDescCount();
+
+// NAVIGATION
+function show(id){
+document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+if(id==="dashboard" && editor){
+setTimeout(()=>editor.layout(),0);
+}
+if(id==="dashboard"){
+loadProblems();
+loadLeaderboard();
+}
+if(id==="admin"){
+loadAdminProblems();
+}
+}
+
+// LOGIN
+function login(){
+fetch(`${API_BASE}/auth/login`,{
+method:'POST',
+headers:{'Content-Type':'application/json'},
+body:JSON.stringify({
+username:elements.loginUser.value,
+password:elements.loginPass.value
+})
+})
+.then(res=>{
+if(!res.ok){
+throw new Error("Login failed");
+}
+return res.text();
+})
+.then(data=>{
+if(data.includes("Success")){
+show('dashboard');
+loadProblems();
+loadLeaderboard();
+}else alert("Invalid");
+})
+.catch(()=>alert("Unable to login right now"));
+}
+
+// REGISTER
+function register(){
+fetch(`${API_BASE}/auth/register`,{
+method:'POST',
+headers:{'Content-Type':'application/json'},
+body:JSON.stringify({
+username:elements.regUser.value,
+password:elements.regPass.value
+})
+})
+.then(res=>{
+if(!res.ok){
+throw new Error("Register failed");
+}
+alert("Registered Successfully");
+})
+.catch(()=>alert("Register failed"));
+}
+
+// LOAD PROBLEMS
+function loadProblems(){
+fetch(`${API_BASE}/admin/problems`)
+.then(res=>res.json())
+.then(data=>{
+problemsCache = data;
+elements.totalProblems.textContent = String(data.length);
+renderProblems(data);
+if(!data.length){
+elements.problemHeading.textContent = "Problem";
+elements.problemDescription.textContent = "No problems available yet.";
+elements.selectedProblemLabel.textContent = "None";
+elements.selectedProblemId.textContent = "Problem ID: -";
+}
+})
+.catch(()=>{
+elements.problems.textContent="Failed to load problems";
+elements.problemHeading.textContent = "Problem";
+elements.problemDescription.textContent = "Unable to load problem statement.";
+elements.totalProblems.textContent = "0";
+elements.selectedProblemLabel.textContent = "None";
+elements.selectedProblemId.textContent = "Problem ID: -";
+});
+}
+
+let selectedProblem=null;
+function selectProblem(problem,selectedElement){
+selectedProblem=problem.id;
+elements.problemHeading.textContent = problem.title || "Problem";
+elements.problemDescription.textContent = problem.description || "No description available.";
+elements.selectedProblemLabel.textContent = problem.title || "None";
+elements.selectedProblemId.textContent = `Problem ID: ${problem.id}`;
+document.querySelectorAll(".problem").forEach(node=>{
+node.style.background="transparent";
+});
+if(selectedElement){
+selectedElement.style.background="rgba(255,255,255,0.15)";
+}
+}
+
+// MONACO EDITOR
+let editor;
+require.config({paths:{vs:'https://unpkg.com/monaco-editor@latest/min/vs'}});
+require(["vs/editor/editor.main"],function(){
+editor=monaco.editor.create(document.getElementById("editor"),{
+value:"// Write Java code here",
+language:"java",
+theme:"vs-dark",
+automaticLayout:true
+});
+if(document.getElementById("dashboard").classList.contains("active")){
+setTimeout(()=>editor.layout(),0);
+}
+});
+
+// SUBMIT
+function submitCode(){
+if(!editor){
+alert("Editor is still loading");
+return;
+}
+if(!selectedProblem){
+alert("Please select a problem first");
+return;
+}
+elements.editorStatus.textContent = "Submitting...";
+elements.output.className = "output-panel";
+elements.output.textContent = "Submitting code...";
+
+fetch(`${API_BASE}/submit`,{
+method:'POST',
+headers:{'Content-Type':'application/json'},
+body:JSON.stringify({
+userId:1,
+problemId:selectedProblem,
+code:editor.getValue(),
+language:"java"
+})
+})
+.then(res=>res.json())
+.then(data=>{
+const isPass = (data.status || "").toUpperCase() === "PASS";
+elements.editorStatus.textContent = isPass ? "Last run: PASS" : "Last run: FAIL";
+elements.output.className = `output-panel ${isPass ? "success" : "error"}`;
+elements.output.innerText="Result: "+data.status;
+})
+.catch(()=>{
+elements.editorStatus.textContent = "Submit failed";
+elements.output.className = "output-panel error";
+elements.output.innerText="Submission failed";
+});
+}
+
+// LEADERBOARD
+function loadLeaderboard(){
+fetch(`${API_BASE}/submit/leaderboard`)
+.then(res=>res.json())
+.then(data=>{
+elements.leaderboard.innerHTML='';
+data.forEach(u=>{
+const item=document.createElement("div");
+item.className = "leaderboard-item";
+item.textContent=`${u.username} - ${u.score}`;
+elements.leaderboard.appendChild(item);
+});
+})
+.catch(()=>{
+elements.leaderboard.textContent="Failed to load leaderboard";
+});
+}
+
+// ADMIN
+function addProblem(){
+const titleValue = elements.problemTitle.value.trim();
+const descriptionValue = elements.problemDesc.value.trim();
+
+if(!titleValue || !descriptionValue){
+setAdminStatus("Enter both title and description", "error");
+return;
+}
+
+fetch(`${API_BASE}/admin/problem`,{
+method:'POST',
+headers:{'Content-Type':'application/json'},
+body:JSON.stringify({
+title:titleValue,
+description:descriptionValue
+})
+})
+.then(res=>{
+if(!res.ok){
+throw new Error("Add problem failed");
+}
+setAdminStatus("Problem added successfully", "success");
+elements.problemTitle.value="";
+elements.problemDesc.value="";
+elements.adminSearch.value = "";
+updateDescCount();
+resetAdminPreview();
+loadProblems();
+loadAdminProblems();
+})
+.catch(()=>setAdminStatus("Failed to add problem", "error"));
+}
+
+function loadAdminProblems(){
+fetch(`${API_BASE}/admin/problems`)
+.then(res=>{
+if(!res.ok){
+throw new Error("Failed to load admin problems");
+}
+return res.json();
+})
+.then(data=>{
+adminProblemsCache = data;
+renderAdminProblems(data);
+if(!data.length){
+resetAdminPreview();
+}
+})
+.catch(()=>{
+adminProblemsCache = [];
+elements.adminProblems.textContent = "Failed to load problem list";
+setAdminStatus("Unable to load admin problem list", "error");
+});
+}
+
+function renderAdminProblems(list){
+elements.adminProblems.innerHTML = "";
+if(!list.length){
+elements.adminProblems.textContent = "No problems added yet.";
+return;
+}
+list.forEach(p=>{
+const item = document.createElement("div");
+const title = document.createElement("strong");
+const snippet = document.createElement("span");
+item.className = "admin-problem-item";
+title.textContent = `#${p.id} ${p.title}`;
+snippet.textContent = (p.description || "No description").slice(0, 90);
+item.appendChild(title);
+item.appendChild(snippet);
+item.onclick = ()=>showAdminPreview(p);
+elements.adminProblems.appendChild(item);
+});
+}
+
+function showAdminPreview(problem){
+elements.adminPreview.innerHTML = `<h4>${problem.title || "Selected Problem"}</h4><p>${problem.description || "No description available."}</p>`;
+}
+
+function resetAdminPreview(){
+elements.adminPreview.innerHTML = "<h4>Selected Problem</h4><p>Select a problem to preview full description.</p>";
+}
+
+function filterAdminProblems(){
+const query = elements.adminSearch.value.trim().toLowerCase();
+if(!query){
+renderAdminProblems(adminProblemsCache);
+return;
+}
+const filtered = adminProblemsCache.filter(p=>(p.title || "").toLowerCase().includes(query));
+renderAdminProblems(filtered);
+}
+
+function clearAdminForm(){
+elements.problemTitle.value = "";
+elements.problemDesc.value = "";
+updateDescCount();
+setAdminStatus("Form cleared", "success");
+}
+
+function updateDescCount(){
+elements.descCount.textContent = `${elements.problemDesc.value.length} / 2000`;
+}
+
+function setAdminStatus(message, type){
+elements.adminStatus.textContent = message;
+elements.adminStatus.className = `admin-status ${type}`;
+}
+
+function renderProblems(list){
+elements.problems.innerHTML = "";
+if(!list.length){
+elements.problems.textContent = "No problems found.";
+return;
+}
+let selectedFound = false;
+list.forEach((p,index)=>{
+const item=document.createElement("div");
+item.className="problem";
+item.textContent=p.title;
+item.onclick=()=>selectProblem(p,item);
+elements.problems.appendChild(item);
+if(selectedProblem && p.id === selectedProblem){
+selectProblem(p,item);
+selectedFound = true;
+}
+if(!selectedProblem && index===0){
+selectProblem(p,item);
+selectedFound = true;
+}
+});
+if(!selectedFound && list.length){
+selectProblem(list[0], elements.problems.firstChild);
+}
+}
+
+function filterProblems(){
+const query = elements.problemSearch.value.trim().toLowerCase();
+if(!query){
+renderProblems(problemsCache);
+return;
+}
+const filtered = problemsCache.filter(p=>(p.title || "").toLowerCase().includes(query) || (p.description || "").toLowerCase().includes(query));
+renderProblems(filtered);
+}
+
+function resetEditor(){
+if(!editor){
+return;
+}
+editor.setValue("// Write Java code here");
+elements.editorStatus.textContent = "Editor reset";
+}
+
+</script>
+
+</body>
+</html>
+
+
