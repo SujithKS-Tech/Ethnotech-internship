@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: chat-application
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/chat_application?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:Ajay.1@123}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+    open-in-view: false
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+server:
+  port: ${SERVER_PORT:8080}
+
+app:
+  jwt:
+    secret: ${JWT_SECRET:change-this-secret-key-to-a-base64-string-with-at-least-32-bytes}
+    expiration: ${JWT_EXPIRATION:86400000}
+  websocket:
+    allowed-origins: ${WS_ALLOWED_ORIGINS:http://localhost:3000,http://localhost:5173,http://localhost:5500,http://127.0.0.1:5500}
+  storage:
+    upload-dir: ${UPLOAD_DIR:uploads}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

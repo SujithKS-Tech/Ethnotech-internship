@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feedback Form</title>
+</head>
+<body>
+  <section>
+    <h1>Feedback Form</h1>
+    <p>We would love to hear your thoughts. Please share your experience with us.</p>
+
+    <form>
+      <fieldset>
+        <legend>Personal Details</legend>
+        <table cellpadding="6">
+          <colgroup>
+            <col style="width: 180px;">
+            <col style="width: 320px;">
+          </colgroup>
+          <tr>
+            <td><label for="name">Full Name</label></td>
+            <td><input type="text" id="name" name="name" placeholder="Enter your name" required></td>
+          </tr>
+          <tr>
+            <td><label for="email">Email Address</label></td>
+            <td><input type="email" id="email" name="email" placeholder="Enter your email" required></td>
+          </tr>
+          <tr>
+            <td><label for="phone">Phone Number</label></td>
+            <td><input type="tel" id="phone" name="phone" placeholder="Enter your phone number" pattern="[0-9]{10}" required></td>
+          </tr>
+          <tr>
+            <td><label for="age">Age</label></td>
+            <td><input type="number" id="age" name="age" min="10" max="100" placeholder="Enter your age"></td>
+          </tr>
+          <tr>
+            <td><label for="city">City</label></td>
+            <td><input type="text" id="city" name="city" list="city-list" placeholder="Enter your city"></td>
+          </tr>
+        </table>
+      </fieldset>
+
+      <br>
+
+      <fieldset>
+        <legend>Feedback Details</legend>
+        <table cellpadding="6">
+          <colgroup>
+            <col style="width: 180px;">
+            <col style="width: 420px;">
+          </colgroup>
+          <tr>
+            <td><label for="category">Feedback Category</label></td>
+            <td>
+              <select id="category" name="category" required>
+                <option value="">Select a category</option>
+                <option value="service">Service</option>
+                <option value="website">Website</option>
+                <option value="support">Support</option>
+                <option value="product">Product</option>
+                <option value="delivery">Delivery</option>
+                <option value="other">Other</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td><label for="visit-date">Date of Experience</label></td>
+            <td><input type="date" id="visit-date" name="visit_date" required></td>
+          </tr>
+          <tr>
+            <td>Overall Rating</td>
+            <td>
+              <input type="radio" id="rating1" name="rating" value="1" required>
+              <label for="rating1">1</label>
+              <input type="radio" id="rating2" name="rating" value="2">
+              <label for="rating2">2</label>
+              <input type="radio" id="rating3" name="rating" value="3">
+              <label for="rating3">3</label>
+              <input type="radio" id="rating4" name="rating" value="4">
+              <label for="rating4">4</label>
+              <input type="radio" id="rating5" name="rating" value="5">
+              <label for="rating5">5</label>
+            </td>
+          </tr>
+          <tr>
+            <td>How did you hear about us?</td>
+            <td>
+              <input type="checkbox" id="social" name="source" value="social-media">
+              <label for="social">Social Media</label>
+              <br>
+              <input type="checkbox" id="friends" name="source" value="friends">
+              <label for="friends">Friends</label>
+              <br>
+              <input type="checkbox" id="ads" name="source" value="ads">
+              <label for="ads">Advertisement</label>
+              <br>
+              <input type="checkbox" id="search" name="source" value="search-engine">
+              <label for="search">Search Engine</label>
+            </td>
+          </tr>
+          <tr>
+            <td>Would you recommend us?</td>
+            <td>
+              <input type="radio" id="recommend-yes" name="recommend" value="yes" required>
+              <label for="recommend-yes">Yes</label>
+              <input type="radio" id="recommend-no" name="recommend" value="no">
+              <label for="recommend-no">No</label>
+              <input type="radio" id="recommend-maybe" name="recommend" value="maybe">
+              <label for="recommend-maybe">Maybe</label>
+            </td>
+          </tr>
+          <tr>
+            <td><label for="message">Your Feedback</label></td>
+            <td><textarea id="message" name="message" rows="6" cols="40" placeholder="Write your feedback here..." required></textarea></td>
+          </tr>
+          <tr>
+            <td><label for="suggestion">Suggestions</label></td>
+            <td><textarea id="suggestion" name="suggestion" rows="4" cols="40" placeholder="Share your suggestions"></textarea></td>
+          </tr>
+          <tr>
+            <td><label for="screenshot">Attach File</label></td>
+            <td><input type="file" id="screenshot" name="attachment"></td>
+          </tr>
+          <tr>
+            <td><label for="satisfaction">Satisfaction Level</label></td>
+            <td><input type="range" id="satisfaction" name="satisfaction" min="1" max="10" value="5" style="accent-color: black;"></td>
+          </tr>
+        </table>
+      </fieldset>
+
+      <br>
+
+      <fieldset>
+        <legend>Confirmation</legend>
+        <table cellpadding="6">
+          <colgroup>
+            <col style="width: 180px;">
+            <col style="width: 420px;">
+          </colgroup>
+          <tr>
+            <td>Updates</td>
+            <td>
+              <input type="checkbox" id="updates" name="updates">
+              <label for="updates">Send me updates by email</label>
+            </td>
+          </tr>
+          <tr>
+            <td>Confirmation</td>
+            <td>
+              <input type="checkbox" id="terms" name="terms" required>
+              <label for="terms">I confirm that the information given is correct</label>
+            </td>
+          </tr>
+        </table>
+      </fieldset>
+
+      <br>
+
+      <input type="submit" value="Submit Feedback">
+      <input type="reset" value="Reset Form">
+    </form>
+
+    <datalist id="city-list">
+      <option value="Chennai"></option>
+      <option value="Bengaluru"></option>
+      <option value="Hyderabad"></option>
+      <option value="Mumbai"></option>
+      <option value="Delhi"></option>
+    </datalist>
+  </section>
+</body>
+</html>

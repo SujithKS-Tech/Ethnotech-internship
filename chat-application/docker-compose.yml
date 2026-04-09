@@ -1,0 +1,51 @@
+version: "3.9"
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: pulsechat-mysql
+    environment:
+      MYSQL_DATABASE: chat_application
+      MYSQL_ROOT_PASSWORD: Ajay.1@123
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-pAjay.1@123"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: pulsechat-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+
+  app:
+    build: .
+    container_name: pulsechat-app
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    environment:
+      DB_URL: jdbc:mysql://mysql:3306/chat_application?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      DB_USERNAME: root
+      DB_PASSWORD: Ajay.1@123
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      JWT_SECRET: change-this-secret-key-to-a-base64-string-with-at-least-32-bytes
+      UPLOAD_DIR: /app/uploads
+    ports:
+      - "8080:8080"
+    volumes:
+      - uploads-data:/app/uploads
+
+volumes:
+  mysql-data:
+  redis-data:
+  uploads-data:

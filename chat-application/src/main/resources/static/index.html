@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PulseChat</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+    <div class="app-shell">
+        <div class="aurora aurora-one"></div>
+        <div class="aurora aurora-two"></div>
+
+        <section id="authSection" class="auth-panel panel">
+            <div class="brand-lockup">
+                <h1>PulseChat</h1>
+                <p>A modern real-time chat workspace with JWT auth, private rooms, group threads, presence, and notifications.</p>
+            </div>
+
+            <div class="auth-card">
+                <div class="auth-tabs">
+                    <button id="showLoginBtn" class="tab active">Login</button>
+                    <button id="showRegisterBtn" class="tab">Register</button>
+                </div>
+
+                <form id="loginForm" class="auth-form">
+                    <label>Email<input type="email" id="loginEmail" placeholder="you@example.com" required></label>
+                    <label>Password<input type="password" id="loginPassword" placeholder="Password" required></label>
+                    <button class="primary-btn" type="submit">Enter Workspace</button>
+                </form>
+
+                <form id="registerForm" class="auth-form hidden">
+                    <label>Username<input type="text" id="registerUsername" placeholder="username" required></label>
+                    <label>Display Name<input type="text" id="registerDisplayName" placeholder="Your name" required></label>
+                    <label>Email<input type="email" id="registerEmail" placeholder="you@example.com" required></label>
+                    <label>Password<input type="password" id="registerPassword" placeholder="At least 6 characters" required></label>
+                    <button class="primary-btn" type="submit">Create Account</button>
+                </form>
+            </div>
+        </section>
+
+        <section id="chatSection" class="chat-layout hidden">
+            <aside class="sidebar panel">
+                <div class="sidebar-top">
+                    <div>
+                        <span class="eyebrow">Realtime dashboard</span>
+                        <h2>Inbox</h2>
+                    </div>
+                    <button id="logoutBtn" class="ghost-btn">Logout</button>
+                </div>
+
+                <div class="current-user-card">
+                    <div class="identity-wrap">
+                        <div id="currentUserAvatar" class="avatar avatar-large">G</div>
+                        <div>
+                        <p class="muted">Signed in as</p>
+                        <h3 id="currentUserName">Guest</h3>
+                        </div>
+                    </div>
+                    <span class="status-pill online">Online</span>
+                </div>
+
+                <div class="sidebar-actions">
+                    <button id="newPrivateChatBtn" class="primary-btn compact">New Private Chat</button>
+                    <button id="newGroupChatBtn" class="secondary-btn compact">New Group Chat</button>
+                </div>
+
+                <div class="section-head">
+                    <span>Conversations</span>
+                    <span id="chatCount">0</span>
+                </div>
+                <div id="chatList" class="chat-list"></div>
+
+                <div class="section-head people-head">
+                    <span>People</span>
+                    <span id="peopleCount">0</span>
+                </div>
+                <div id="peopleList" class="people-list"></div>
+            </aside>
+
+            <main class="conversation panel">
+                <div class="conversation-head">
+                    <div>
+                        <p class="muted">Active conversation</p>
+                        <h2 id="chatTitle">Select a chat</h2>
+                    </div>
+                    <div id="participantSummary" class="participant-summary"></div>
+                </div>
+                <div class="conversation-tools">
+                    <label class="message-search">
+                        <input id="messageSearchInput" type="text" placeholder="Search in this chat">
+                    </label>
+                    <span id="messageSearchMeta" class="message-search-meta">Open a chat to search its messages.</span>
+                </div>
+                <div id="typingIndicator" class="typing-indicator hidden"></div>
+
+                <div id="messages" class="messages empty-state">
+                    <div>
+                        <h3>Choose a conversation to start chatting</h3>
+                        <p>Messages, notifications, and online presence will appear here in real time.</p>
+                    </div>
+                </div>
+
+                <form id="messageForm" class="message-composer hidden">
+                    <label class="file-trigger" for="attachmentInput">Attach</label>
+                    <label class="file-trigger" for="voiceInput">Voice</label>
+                    <input id="attachmentInput" type="file" class="hidden">
+                    <input id="voiceInput" type="file" accept="audio/*" class="hidden">
+                    <input id="messageInput" type="text" placeholder="Write a message..." autocomplete="off">
+                    <button class="primary-btn" type="submit">Send</button>
+                </form>
+            </main>
+
+            <aside class="insights panel">
+                <label class="search-card">
+                    <span class="eyebrow">Search</span>
+                    <input id="searchInput" type="text" placeholder="Search chats or people">
+                    <span id="searchMeta" class="search-meta">Find conversations, teammates, and recent activity.</span>
+                </label>
+
+                <div id="searchResults" class="insight-card search-results-card hidden"></div>
+
+                <div class="section-head">
+                    <span>Notifications</span>
+                    <span id="notificationCount">0</span>
+                </div>
+                <div id="notificationList" class="notification-list"></div>
+
+                <div class="insight-card stats-card">
+                    <span class="eyebrow">Workspace Snapshot</span>
+                    <div class="stat-grid">
+                        <div class="stat-item">
+                            <strong id="totalMessagesStat">0</strong>
+                            <span>Messages</span>
+                        </div>
+                        <div class="stat-item">
+                            <strong id="onlinePeopleStat">0</strong>
+                            <span>Online</span>
+                        </div>
+                        <div class="stat-item">
+                            <strong id="unreadStat">0</strong>
+                            <span>Unread</span>
+                        </div>
+                        <div class="stat-item">
+                            <strong id="groupsStat">0</strong>
+                            <span>Groups</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="insight-card">
+                    <span class="eyebrow">People Online</span>
+                    <div id="onlinePeopleList" class="online-people-list"></div>
+                </div>
+
+                <div class="insight-card">
+                    <span class="eyebrow">Recent Activity</span>
+                    <div id="recentActivityList" class="recent-activity-list"></div>
+                </div>
+
+                <div class="insight-card action-card">
+                    <span class="eyebrow">Quick Actions</span>
+                    <button id="quickPrivateBtn" class="secondary-btn compact" type="button">Start Private Chat</button>
+                    <button id="quickGroupBtn" class="secondary-btn compact" type="button">Create Group</button>
+                </div>
+            </aside>
+        </section>
+    </div>
+
+    <dialog id="chatModal" class="chat-modal">
+        <form method="dialog" class="modal-card" id="chatModalForm">
+            <div class="modal-head">
+                <div>
+                    <span class="eyebrow">Create conversation</span>
+                    <h3 id="modalTitle">New chat</h3>
+                </div>
+                <button class="ghost-btn" type="submit">Close</button>
+            </div>
+
+            <label id="groupNameWrap" class="hidden">Group Name<input type="text" id="groupNameInput" placeholder="Weekend Squad"></label>
+            <div>
+                <p class="muted">Participants</p>
+                <div id="userPicker" class="user-picker"></div>
+            </div>
+            <button id="createChatBtn" class="primary-btn" type="button">Create Chat</button>
+        </form>
+    </dialog>
+
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7/bundles/stomp.umd.min.js"></script>
+    <script src="./app.js"></script>
+</body>
+</html>
