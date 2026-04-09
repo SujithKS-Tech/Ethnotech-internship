@@ -102,6 +102,19 @@ public class SecurityConfig {
                 // ✅ VERY IMPORTANT: allow OPTIONS (preflight)
                 .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
 
+                // Public frontend and assets
+                .requestMatchers(
+                    "/",
+                    "/index.html",
+                    "/register.html",
+                    "/admin.html",
+                    "/doctor.html",
+                    "/patient.html",
+                    "/css/**",
+                    "/js/**",
+                    "/error"
+                ).permitAll()
+
                 // Public APIs
                 .requestMatchers("/auth/**").permitAll()
 
