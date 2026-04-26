@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Scanner;
 
+// Creating Class
 public class Student_deatils {
 	static String URL = "jdbc:mysql://localhost:3306/college";
     static String USER = "root";
