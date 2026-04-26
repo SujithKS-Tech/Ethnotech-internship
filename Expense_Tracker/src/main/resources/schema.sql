@@ -1,0 +1,20 @@
+CREATE TABLE IF NOT EXISTS expenses (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(120) NOT NULL,
+    category VARCHAR(50) NOT NULL,
+    amount DECIMAL(12, 2) NOT NULL,
+    expense_date DATE NOT NULL,
+    payment_method VARCHAR(40) NOT NULL,
+    notes VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_expense_date (expense_date),
+    INDEX idx_category (category)
+);
+
+CREATE TABLE IF NOT EXISTS monthly_budget (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    `year_month` CHAR(7) NOT NULL UNIQUE,
+    budget DECIMAL(12, 2) NOT NULL,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);

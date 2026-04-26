@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Counter Application</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="counter-app">
+      <section class="counter-panel" aria-labelledby="counter-title">
+        <h1 id="counter-title">Counter Application</h1>
+
+        <div id="counterValue" class="counter-value neutral" aria-live="polite">
+          0
+        </div>
+
+        <p id="counterStatus" class="counter-status">
+          Start counting.
+        </p>
+
+        <div class="button-row">
+          <button id="decreaseBtn" type="button">Decrease</button>
+          <button id="resetBtn" type="button" class="secondary">Reset</button>
+          <button id="increaseBtn" type="button">Increase</button>
+        </div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>

@@ -19,6 +19,16 @@
             "projectName": "chat-application",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-HospitalAppointmentApplication<com.sanjay-Hospital_appointment>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.appointment.HospitalAppointmentApplication",
+            "projectName": "com.sanjay-Hospital_appointment",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }

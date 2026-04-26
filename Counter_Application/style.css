@@ -1,0 +1,152 @@
+:root {
+  --background: #f4f7fb;
+  --surface: #ffffff;
+  --text: #172033;
+  --muted: #637083;
+  --border: #d9e0ea;
+  --positive: #147d4f;
+  --negative: #c93434;
+  --neutral: #4d5a6b;
+  --button: #1f5eff;
+  --button-hover: #184bd0;
+  --secondary: #e8edf5;
+  --secondary-hover: #dbe3ef;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--text);
+  background:
+    linear-gradient(135deg, rgba(31, 94, 255, 0.12), transparent 34%),
+    linear-gradient(315deg, rgba(20, 125, 79, 0.12), transparent 30%),
+    var(--background);
+}
+
+.counter-app {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.counter-panel {
+  width: min(100%, 430px);
+  padding: 32px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: 0 18px 45px rgba(23, 32, 51, 0.12);
+  text-align: center;
+}
+
+.eyebrow {
+  margin: 0 0 10px;
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.counter-value {
+  margin: 28px auto 12px;
+  font-size: 5rem;
+  font-weight: 800;
+  line-height: 1;
+  transition: color 180ms ease;
+}
+
+.counter-value.changed {
+  animation: pulse 180ms ease;
+}
+
+.counter-value.positive {
+  color: var(--positive);
+}
+
+.counter-value.negative {
+  color: var(--negative);
+}
+
+.counter-value.neutral {
+  color: var(--neutral);
+}
+
+.counter-status {
+  min-height: 24px;
+  margin: 0 0 28px;
+  color: var(--muted);
+  font-size: 1rem;
+}
+
+.button-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+button {
+  min-height: 44px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--button);
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 160ms ease, transform 160ms ease;
+}
+
+button:hover {
+  background: var(--button-hover);
+  transform: translateY(-1px);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+button:focus-visible {
+  outline: 3px solid rgba(31, 94, 255, 0.28);
+  outline-offset: 3px;
+}
+
+button.secondary {
+  background: var(--secondary);
+  color: var(--text);
+}
+
+button.secondary:hover {
+  background: var(--secondary-hover);
+}
+
+@keyframes pulse {
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@media (max-width: 420px) {
+  .counter-panel {
+    padding: 24px;
+  }
+
+  .button-row {
+    grid-template-columns: 1fr;
+  }
+
+  .counter-value {
+    font-size: 4rem;
+  }
+}

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Expanding Cards Gallery</title>
+    <link rel="preconnect" href="https://images.unsplash.com" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="app-shell" aria-labelledby="gallery-title">
+      <header class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Atlas Picks</p>
+          <h1 id="gallery-title">Wild Places, Closer</h1>
+          <p class="intro">Pick a scene, follow the light, and keep the frames that stay with you.</p>
+        </div>
+
+        <aside class="hero-card" aria-label="Current scene">
+          <span id="heroSceneLabel">Now Framing</span>
+          <strong id="heroSceneTitle">Forest Cabin</strong>
+          <small id="heroSceneMeta">Forest / Olympic Peninsula</small>
+        </aside>
+
+        <div class="hero-actions" aria-label="Gallery actions">
+          <button class="ghost-btn" id="prevBtn" type="button">Previous</button>
+          <button class="ghost-btn" id="nextBtn" type="button">Next</button>
+          <button class="ghost-btn" id="themeToggle" type="button" aria-pressed="false">Night</button>
+          <button class="ghost-btn" id="fullscreenBtn" type="button">Full Screen</button>
+          <button class="solid-btn" id="shuffleBtn" type="button">Shuffle</button>
+        </div>
+      </header>
+
+      <section class="stat-strip" aria-label="Gallery stats">
+        <article class="stat-tile">
+          <span>Total Scenes</span>
+          <strong id="totalCount">24</strong>
+        </article>
+        <article class="stat-tile">
+          <span>Saved Frames</span>
+          <strong id="savedCount">0</strong>
+        </article>
+        <article class="stat-tile">
+          <span>Visible Now</span>
+          <strong id="visibleCount">24</strong>
+        </article>
+        <article class="stat-tile">
+          <span>Current Mood</span>
+          <strong id="activeMood">Quiet</strong>
+        </article>
+      </section>
+
+      <section class="showcase-panel" aria-label="Featured scene">
+        <div class="showcase-visual">
+          <span id="showcaseMood">Quiet</span>
+        </div>
+        <div class="showcase-copy">
+          <p class="story-kicker">Featured Frame</p>
+          <h2 id="showcaseTitle">Forest Cabin</h2>
+          <p id="showcaseDescription">A quiet path where the trees hold the afternoon light.</p>
+          <div class="showcase-meta" aria-label="Featured image details">
+            <span id="showcaseCategory">Forest</span>
+            <span id="showcaseLocation">Olympic Peninsula</span>
+            <span id="showcaseLight">Soft afternoon</span>
+          </div>
+        </div>
+        <div class="showcase-actions">
+          <button class="ghost-btn compact" id="showcaseSave" type="button">Save Frame</button>
+          <button class="solid-btn compact" id="showcaseOpen" type="button">View Large</button>
+        </div>
+      </section>
+
+      <section class="control-band" aria-label="Gallery tools">
+        <label class="search-field" for="searchInput">
+          <span>Search</span>
+          <input id="searchInput" type="search" placeholder="forest, coast, desert..." autocomplete="off" />
+        </label>
+
+        <div class="filter-group" aria-label="Filter by landscape">
+          <button class="filter-btn active" type="button" data-filter="all" aria-pressed="true">All</button>
+          <button class="filter-btn" type="button" data-filter="forest" aria-pressed="false">Forest</button>
+          <button class="filter-btn" type="button" data-filter="coast" aria-pressed="false">Coast</button>
+          <button class="filter-btn" type="button" data-filter="mountain" aria-pressed="false">Mountain</button>
+          <button class="filter-btn" type="button" data-filter="desert" aria-pressed="false">Desert</button>
+          <button class="filter-btn" type="button" data-filter="lake" aria-pressed="false">Lake</button>
+        </div>
+
+        <div class="tool-cluster">
+          <button class="toggle-btn" id="favoritesToggle" type="button" aria-pressed="false">Saved Only</button>
+          <button class="toggle-btn" id="autoplayToggle" type="button" aria-pressed="false">Auto Play</button>
+          <div class="view-switch" aria-label="View style">
+            <button class="view-btn active" type="button" data-view="focus" aria-pressed="true">Focus</button>
+            <button class="view-btn" type="button" data-view="mosaic" aria-pressed="false">Mosaic</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="refine-band" aria-label="Gallery refinement">
+        <label class="select-field" for="sortSelect">
+          <span>Sort</span>
+          <select id="sortSelect">
+            <option value="curated">Curated Flow</option>
+            <option value="title">Title A-Z</option>
+            <option value="category">Category</option>
+            <option value="saved">Saved First</option>
+          </select>
+        </label>
+
+        <label class="select-field" for="speedSelect">
+          <span>Auto Speed</span>
+          <select id="speedSelect">
+            <option value="6500">Slow Drift</option>
+            <option value="4200" selected>Gallery Pace</option>
+            <option value="2600">Quick Tour</option>
+          </select>
+        </label>
+
+        <div class="mood-cloud" aria-label="Mood shortcuts">
+          <button class="mood-btn active" type="button" data-mood="all" aria-pressed="true">All Moods</button>
+          <button class="mood-btn" type="button" data-mood="Calm" aria-pressed="false">Calm</button>
+          <button class="mood-btn" type="button" data-mood="Dramatic" aria-pressed="false">Dramatic</button>
+          <button class="mood-btn" type="button" data-mood="Warm" aria-pressed="false">Warm</button>
+          <button class="mood-btn" type="button" data-mood="Bright" aria-pressed="false">Bright</button>
+        </div>
+
+        <div class="palette-switch" aria-label="Accent palette">
+          <button class="palette-btn active" type="button" data-palette="verdant" aria-pressed="true">
+            <span class="palette-dot verdant"></span>
+            Verdant
+          </button>
+          <button class="palette-btn" type="button" data-palette="coral" aria-pressed="false">
+            <span class="palette-dot coral"></span>
+            Coral
+          </button>
+          <button class="palette-btn" type="button" data-palette="gold" aria-pressed="false">
+            <span class="palette-dot gold"></span>
+            Gold
+          </button>
+        </div>
+
+        <button class="ghost-btn" id="resetBtn" type="button">Reset View</button>
+      </section>
+
+      <section class="collection-grid" id="collectionGrid" aria-label="Landscape collections"></section>
+
+      <section class="gallery-stage" aria-label="Expanding image cards">
+        <div class="stage-topline">
+          <span id="stageLabel">Showing all places</span>
+          <span id="matchCount">24 places</span>
+        </div>
+        <div class="panel-track" id="panelTrack"></div>
+        <p class="empty-state" id="emptyState" hidden>No matching places yet.</p>
+      </section>
+
+      <section class="story-bar" aria-live="polite">
+        <div class="story-copy">
+          <p class="story-kicker" id="activeCategory">Forest</p>
+          <h2 id="activeTitle">Forest Cabin</h2>
+          <p id="activeDescription">A quiet path where the trees hold the afternoon light.</p>
+          <div class="detail-chips" aria-label="Current image details">
+            <span id="activeLocation">Olympic Peninsula</span>
+            <span id="activeLight">Soft afternoon</span>
+            <span id="activeSavedStatus">Not saved</span>
+          </div>
+        </div>
+
+        <div class="story-actions">
+          <span class="count-pill" id="activeCount">01 / 24</span>
+          <button class="ghost-btn compact" id="saveBtn" type="button" aria-pressed="false">Save</button>
+          <button class="ghost-btn compact" id="shareBtn" type="button">Copy Link</button>
+          <button class="ghost-btn compact" id="captionBtn" type="button">Copy Caption</button>
+          <a class="ghost-link compact" id="sourceLink" href="#" target="_blank" rel="noreferrer">Image Link</a>
+          <a class="ghost-link compact" id="downloadLink" href="#" download target="_blank" rel="noreferrer">Download</a>
+          <button class="solid-btn compact" id="openLightbox" type="button">Open View</button>
+        </div>
+
+        <div class="progress-meter" aria-hidden="true">
+          <span id="progressBar"></span>
+        </div>
+      </section>
+
+      <section class="thumb-strip" id="thumbStrip" aria-label="Gallery thumbnails"></section>
+
+      <section class="trail-panel" aria-labelledby="trailTitle">
+        <div class="trail-header">
+          <p class="story-kicker">Recently Viewed</p>
+          <h2 id="trailTitle">Your Trail</h2>
+        </div>
+        <div class="trail-list" id="trailList" aria-label="Recently viewed places"></div>
+      </section>
+
+      <section class="shortcut-bar" aria-label="Keyboard shortcuts">
+        <span>Arrow keys move</span>
+        <span>/ searches</span>
+        <span>S saves</span>
+        <span>M changes view</span>
+        <span>F filters saved</span>
+        <span>Enter opens</span>
+        <span>Escape closes</span>
+      </section>
+    </main>
+
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-labelledby="lightboxTitle" hidden>
+      <button class="lightbox-close" id="closeLightbox" type="button">Close</button>
+      <button class="lightbox-nav prev" id="lightboxPrev" type="button" aria-label="Previous image">Previous</button>
+
+      <figure class="lightbox-frame">
+        <img id="lightboxImage" src="" alt="" />
+        <figcaption>
+          <span id="lightboxCategory">Forest</span>
+          <strong id="lightboxTitle">Forest Cabin</strong>
+          <small id="lightboxDescription">A quiet path where the trees hold the afternoon light.</small>
+        </figcaption>
+      </figure>
+
+      <button class="lightbox-nav next" id="lightboxNext" type="button" aria-label="Next image">Next</button>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <nav class="action-dock" aria-label="Quick gallery actions">
+      <button class="dock-btn" id="dockPrev" type="button">Previous</button>
+      <button class="dock-btn" id="dockSave" type="button">Save</button>
+      <button class="dock-btn primary" id="dockOpen" type="button">Open</button>
+      <button class="dock-btn" id="dockNext" type="button">Next</button>
+    </nav>
+
+    <script src="script.js"></script>
+  </body>
+</html>

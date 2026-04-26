@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker | Flight Deck</title>
+    <link rel="stylesheet" href="styles.css?v=20260425b">
+</head>
+<body>
+    <div class="scene-grid" aria-hidden="true"></div>
+    <div class="scene-orb orb-one" aria-hidden="true"></div>
+    <div class="scene-orb orb-two" aria-hidden="true"></div>
+
+    <main class="layout">
+        <aside class="panel command-rail">
+            <div>
+                <p class="kicker">Flight Deck</p>
+                <h1>Expense<br>Command</h1>
+                <p class="subtitle">Track, plan, and adjust spending with live monthly controls.</p>
+            </div>
+
+            <div class="rail-controls">
+                <label class="field">
+                    <span>Month</span>
+                    <input type="month" id="monthPicker">
+                </label>
+
+                <label class="field">
+                    <span>Category Filter</span>
+                    <select id="categoryFilter"></select>
+                </label>
+
+                <button type="button" id="refreshButton" class="btn btn-primary">Sync Dashboard</button>
+            </div>
+        </aside>
+
+        <section class="main-stack">
+            <section class="card-row">
+                <article class="panel metric budget">
+                    <p class="meta">Monthly Budget</p>
+                    <h2 id="budgetValue">INR 0.00</h2>
+                    <p id="budgetCaption" class="note">Define your cap for this month.</p>
+                </article>
+
+                <article class="panel metric spent">
+                    <p class="meta">Spent This Month</p>
+                    <h2 id="spentValue">INR 0.00</h2>
+                    <p id="spentCaption" class="note">Your real-time spend total.</p>
+                </article>
+
+                <article class="panel metric remaining">
+                    <p class="meta">Remaining Budget</p>
+                    <h2 id="remainingValue">INR 0.00</h2>
+                    <p id="remainingCaption" class="note">How much room is left.</p>
+                </article>
+
+                <article class="panel metric topcat">
+                    <p class="meta">Top Category</p>
+                    <h2 id="topCategoryValue">No expenses yet</h2>
+                    <p id="topCategoryCaption" class="note">Category with highest monthly total.</p>
+                </article>
+            </section>
+
+            <section class="workspace">
+                <div class="left-column">
+                    <article class="panel block">
+                        <div class="block-head">
+                            <p class="kicker">Budget Lock</p>
+                            <h3>Monthly cap setup</h3>
+                        </div>
+                        <form id="budgetForm" class="budget-form">
+                            <label class="field">
+                                <span>Budget amount</span>
+                                <input type="number" id="budgetInput" min="0" step="0.01" placeholder="e.g. 35000">
+                            </label>
+                            <button type="submit" class="btn btn-primary">Save Budget</button>
+                        </form>
+                    </article>
+
+                    <article class="panel block">
+                        <div class="block-head dual">
+                            <div>
+                                <p class="kicker">Transaction Editor</p>
+                                <h3 id="formTitle">Log an expense</h3>
+                            </div>
+                            <p id="formSubtitle" class="note">Capture details while they are fresh.</p>
+                        </div>
+
+                        <form id="expenseForm" class="expense-form">
+                            <label class="field">
+                                <span>Title</span>
+                                <input type="text" id="titleInput" maxlength="120" placeholder="Groceries, Fuel, Rent..." required>
+                            </label>
+
+                            <label class="field">
+                                <span>Amount</span>
+                                <input type="number" id="amountInput" min="0.01" step="0.01" placeholder="0.00" required>
+                            </label>
+
+                            <label class="field">
+                                <span>Date</span>
+                                <input type="date" id="dateInput" required>
+                            </label>
+
+                            <label class="field">
+                                <span>Category</span>
+                                <input type="text" id="categoryInput" list="categorySuggestions" maxlength="50" placeholder="Food, Travel, Bills..." required>
+                            </label>
+
+                            <label class="field">
+                                <span>Payment Method</span>
+                                <select id="paymentMethodInput" required>
+                                    <option value="UPI">UPI</option>
+                                    <option value="Cash">Cash</option>
+                                    <option value="Card">Card</option>
+                                    <option value="Net Banking">Net Banking</option>
+                                    <option value="Wallet">Wallet</option>
+                                </select>
+                            </label>
+
+                            <label class="field full">
+                                <span>Notes</span>
+                                <textarea id="notesInput" rows="3" maxlength="255" placeholder="Optional note"></textarea>
+                            </label>
+
+                            <div class="actions full">
+                                <button type="submit" id="submitExpenseButton" class="btn btn-primary">Save Expense</button>
+                                <button type="button" id="resetFormButton" class="btn btn-soft">Reset Form</button>
+                            </div>
+                        </form>
+                    </article>
+
+                    <article class="panel block">
+                        <div class="block-head dual">
+                            <div>
+                                <p class="kicker">Ledger</p>
+                                <h3>Expense timeline</h3>
+                            </div>
+                            <p id="expenseCountLabel" class="note">0 expenses</p>
+                        </div>
+                        <div id="expenseList" class="expense-list"></div>
+                    </article>
+                </div>
+
+                <div class="right-column">
+                    <article class="panel block">
+                        <div class="block-head">
+                            <p class="kicker">Budget Radar</p>
+                            <h3>Progress monitor</h3>
+                        </div>
+                        <div id="budgetProgressCard" class="progress-card"></div>
+                    </article>
+
+                    <article class="panel block">
+                        <div class="block-head">
+                            <p class="kicker">Category Map</p>
+                            <h3>Spend distribution</h3>
+                        </div>
+                        <div id="breakdownList" class="breakdown-list"></div>
+                    </article>
+
+                    <article class="panel block">
+                        <div class="block-head">
+                            <p class="kicker">Live Feed</p>
+                            <h3>Recent activity</h3>
+                        </div>
+                        <div id="recentList" class="recent-list"></div>
+                    </article>
+                </div>
+            </section>
+        </section>
+    </main>
+
+    <datalist id="categorySuggestions"></datalist>
+    <div id="toast" class="toast" aria-live="polite"></div>
+
+    <script src="app.js?v=20260425b"></script>
+</body>
+</html>
