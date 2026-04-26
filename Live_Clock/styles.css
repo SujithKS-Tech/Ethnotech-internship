@@ -1,0 +1,86 @@
+:root {
+  --ink: #151515;
+  --paper: #f7f7f2;
+  --mint: #52c98b;
+  --coral: #f45b69;
+  --cyan: #00a7b5;
+  --shadow: rgba(21, 21, 21, 0.18);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--ink);
+  background:
+    linear-gradient(135deg, rgba(82, 201, 139, 0.24), transparent 34%),
+    linear-gradient(315deg, rgba(244, 91, 105, 0.2), transparent 36%),
+    var(--paper);
+}
+
+.clock-shell {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.clock-panel {
+  width: min(100%, 560px);
+  padding: clamp(28px, 7vw, 56px);
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 12px 12px 0 var(--shadow);
+  text-align: center;
+}
+
+.eyebrow,
+.period,
+.date {
+  margin: 0;
+}
+
+.eyebrow {
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  color: var(--cyan);
+  font-weight: 700;
+}
+
+.time {
+  margin: 16px 0 8px;
+  font-size: clamp(3rem, 11vw, 6.5rem);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.period {
+  display: inline-block;
+  min-width: 4.25rem;
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: var(--mint);
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.date {
+  margin-top: 18px;
+  font-size: 1rem;
+  color: #404040;
+}
+
+@media (max-width: 480px) {
+  .clock-panel {
+    box-shadow: 8px 8px 0 var(--shadow);
+  }
+
+  .time {
+    font-size: 3rem;
+  }
+}
