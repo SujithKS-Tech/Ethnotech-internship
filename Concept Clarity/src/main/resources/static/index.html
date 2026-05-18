@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Concept Clarity</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-glow page-glow-one"></div>
+    <div class="page-glow page-glow-two"></div>
+
+    <main class="app-shell">
+      <section class="workspace" aria-labelledby="app-title">
+        <div class="intro">
+          <div class="brand-row">
+            <span class="logo-mark">CC</span>
+            <p class="eyebrow">Spring Boot + MySQL</p>
+          </div>
+          <h1 id="app-title">Concept Clarity</h1>
+          <p>
+            Ask about any concept, select the explanation level and answer style, then receive a
+            clear learning-friendly explanation saved to your MySQL database.
+          </p>
+        </div>
+
+        <form class="question-panel" id="concept-form">
+          <label class="field">
+            <span>Concept or question</span>
+            <input
+              id="concept"
+              name="concept"
+              type="text"
+              maxlength="120"
+              placeholder="Example: photosynthesis, recursion, blockchain"
+              required
+            />
+          </label>
+
+          <div class="quick-prompts" aria-label="Quick concept examples">
+            <button type="button" data-prompt="Artificial Intelligence">Artificial Intelligence</button>
+            <button type="button" data-prompt="Photosynthesis">Photosynthesis</button>
+            <button type="button" data-prompt="Java OOP">Java OOP</button>
+          </div>
+
+          <section class="ai-feature-panel" aria-label="AI features">
+            <div>
+              <span class="panel-kicker">AI tools</span>
+              <h2>Learn faster with smart help</h2>
+            </div>
+            <div class="ai-tool-grid">
+              <button type="button" data-ai-tool="simplify">Simplify</button>
+              <button type="button" data-ai-tool="examples">Examples</button>
+              <button type="button" data-ai-tool="quiz">Quiz</button>
+              <button type="button" data-ai-tool="study-notes">Study notes</button>
+            </div>
+          </section>
+
+          <div class="control-grid">
+            <fieldset>
+              <legend>Explanation Level</legend>
+              <label class="option-card">
+                <input type="radio" name="level" value="Beginner" checked />
+                <span>
+                  <strong>Beginner</strong>
+                  <small>Simple and friendly</small>
+                </span>
+              </label>
+              <label class="option-card">
+                <input type="radio" name="level" value="Intermediate" />
+                <span>
+                  <strong>Intermediate</strong>
+                  <small>Practical with detail</small>
+                </span>
+              </label>
+              <label class="option-card">
+                <input type="radio" name="level" value="Advanced" />
+                <span>
+                  <strong>Advanced</strong>
+                  <small>Deep and precise</small>
+                </span>
+              </label>
+            </fieldset>
+
+            <fieldset>
+              <legend>Explanation Type</legend>
+              <label class="option-card">
+                <input type="radio" name="explanationType" value="Definition" />
+                <span>
+                  <strong>Definition</strong>
+                  <small>Short meaning</small>
+                </span>
+              </label>
+              <label class="option-card">
+                <input type="radio" name="explanationType" value="Detailed explanation" checked />
+                <span>
+                  <strong>Detailed</strong>
+                  <small>Full concept clarity</small>
+                </span>
+              </label>
+              <label class="option-card">
+                <input type="radio" name="explanationType" value="Step-by-step" />
+                <span>
+                  <strong>Step-by-step</strong>
+                  <small>Learn in sequence</small>
+                </span>
+              </label>
+            </fieldset>
+          </div>
+
+          <label class="field">
+            <span>Optional context</span>
+            <textarea
+              id="context"
+              name="context"
+              rows="4"
+              maxlength="500"
+              placeholder="Example: I am preparing for an exam, or I know basic Java."
+            ></textarea>
+          </label>
+
+          <button class="primary-action" type="submit" id="submit-button">
+            <span>Generate explanation</span>
+          </button>
+        </form>
+      </section>
+
+      <section class="answer-panel" aria-live="polite">
+        <div class="empty-state" id="empty-state">
+          <div class="empty-visual">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <h2>Ready when you are</h2>
+          <p>Ask a concept to generate a structured explanation with follow-up questions.</p>
+        </div>
+        <article class="answer" id="answer" hidden></article>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
